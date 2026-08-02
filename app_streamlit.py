@@ -14,7 +14,52 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# 2. HELPER / DATOS SIMULADOS (Reemplazar con tu modelo/dataset real)
+# ESTILOS PERSONALIZADOS (CSS) - PALETA VERDE AGRÍCOLA Y AZUL MODERNO
+# -----------------------------------------------------------------------------
+st.markdown("""
+    <style>
+    /* Fondo principal y fuente */
+    .stApp {
+        background-color: #F8FAF8;
+    }
+    
+    /* Personalización del Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #1B4332 !important;
+    }
+    [data-testid="stSidebar"] * {
+        color: #E8F5E9 !important;
+    }
+    
+    /* Títulos e Histórico */
+    h1, h2, h3 {
+        color: #2D6A4F !important;
+    }
+    
+    /* Tarjetas de métricas (KPIs) */
+    [data-testid="stMetric"] {
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        padding: 12px 16px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        border-left: 5px solid #2D6A4F;
+    }
+    [data-testid="stMetricLabel"] {
+        color: #52B788 !important;
+        font-weight: 600;
+    }
+    
+    /* Botones y controles */
+    .stButton>button {
+        background-color: #2D6A4F;
+        color: white;
+        border-radius: 8px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# -----------------------------------------------------------------------------
+# 2. HELPER / DATOS SIMULADOS
 # -----------------------------------------------------------------------------
 VARIEDADES = ['Papa canchan', 'Papa huayro', 'Papa negra andina', 'Papa peruanita', 'Papa unica']
 
@@ -74,8 +119,18 @@ df_var = obtener_datos_variedad(variedad_sel)
 st.subheader(f"📊 1. Evolución Histórica de Precios — {variedad_sel}")
 
 fig_eda = go.Figure()
-fig_eda.add_trace(go.Scatter(x=df_var['fecha'], y=df_var['precio_mayorista'], name='Precio Mayorista (S/)', line=dict(color='#8B4513', width=2)))
-fig_eda.add_trace(go.Scatter(x=df_var['fecha'], y=df_var['precio_minorista'], name='Precio Minorista (S/)', line=dict(color='#D2691E', width=2, dash='dash')))
+fig_eda.add_trace(go.Scatter(
+    x=df_var['fecha'], 
+    y=df_var['precio_mayorista'], 
+    name='Precio Mayorista (S/)', 
+    line=dict(color='#2D6A4F', width=2.5) # Verde Esmeralda
+))
+fig_eda.add_trace(go.Scatter(
+    x=df_var['fecha'], 
+    y=df_var['precio_minorista'], 
+    name='Precio Minorista (S/)', 
+    line=dict(color='#1A759F', width=2.5, dash='dash') # Azul Océano
+))
 fig_eda.update_layout(
     xaxis_title="Fecha (Mensual)",
     yaxis_title="Precio (S/ kg)",
@@ -115,8 +170,18 @@ with col_left:
 
 with col_right:
     fig_comp = go.Figure()
-    fig_comp.add_trace(go.Bar(x=['Climático', 'Económico', 'Combinado'], y=rmse, name='RMSE (S/)', marker_color='#C73E1D'))
-    fig_comp.add_trace(go.Bar(x=['Climático', 'Económico', 'Combinado'], y=mae, name='MAE (S/)', marker_color='#3B7A57'))
+    fig_comp.add_trace(go.Bar(
+        x=['Climático', 'Económico', 'Combinado'], 
+        y=rmse, 
+        name='RMSE (S/)', 
+        marker_color='#E76F51' # Naranja Cálido
+    ))
+    fig_comp.add_trace(go.Bar(
+        x=['Climático', 'Económico', 'Combinado'], 
+        y=mae, 
+        name='MAE (S/)', 
+        marker_color='#52B788' # Verde
+    ))
     fig_comp.update_layout(
         title=f"Error por Arquitectura — {variedad_sel}",
         barmode='group',
@@ -156,14 +221,14 @@ fig_pred.add_trace(go.Scatter(
     x=df_var['fecha'].iloc[-12:], 
     y=df_var['precio_minorista'].iloc[-12:], 
     name='Histórico Reciente', 
-    line=dict(color='#2c3e50', width=2),
+    line=dict(color='#1D3557', width=2.5), # Azul Marino
     mode='lines+markers'
 ))
 fig_pred.add_trace(go.Scatter(
     x=fechas_futuras, 
     y=pred_vals, 
     name='Pronóstico LSTM', 
-    line=dict(color='#e74c3c', width=3, dash='dot'), 
+    line=dict(color='#D90429', width=3, dash='dot'), # Rojo Intenso para Predicción
     marker=dict(size=8)
 ))
 
