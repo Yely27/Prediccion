@@ -107,7 +107,7 @@ st.write("Modelado multivariado con Redes Neuronales LSTM considerando variables
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Variedades Aptas", "5 / 6", "1 excluida (>40% faltantes)", delta_color="inverse")
 col2.metric("Rango Temporal", "2020 - 2025", "72 meses")
-col3.metric("Estación Meteorológica", "Puente Ilave", "SENAMHI Puno")
+col3.metric("Estación Meteorológica", "PUNO", "SENAMHI Puno")
 col4.metric("Modelo Sugerido", "Combinado", "Menor RMSE y MAE")
 
 st.markdown("---")
